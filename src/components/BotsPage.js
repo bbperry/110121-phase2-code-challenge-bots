@@ -14,10 +14,31 @@ function BotsPage() {
       .then((data) => setBots(data));
   }, []);
 
+  function handleAddArmy(enlist) {
+    setBots(
+      bots.map((bot) =>
+        bot.id === enlist.id ? { ...bot, enlisted: true } : bot
+      )
+    );
+  }
+
+  function handleRelease(enlist) {
+    setBots(
+      bots.map((bot) =>
+        bot.id === enlist.id ? { ...bot, enlisted: false } : bot
+      )
+    );
+  }
+
+  function handleDelete(id) {
+    setBots(bots.filter(bot=> bot.id !== id))
+  }
+
+
   return (
     <div>
-      <YourBotArmy />
-      <BotCollection />
+      <YourBotArmy bots={bots.filter(bots=> bots.enlisted)} handleRelease={handleRelease} handleDelete={handleDelete} />
+      <BotCollection bots={bots} handleAddArmy={handleAddArmy} handleDelete={handleDelete}/>
     </div>
   )
 }
